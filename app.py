@@ -1,7 +1,7 @@
 from flask import *
 from playwright.sync_api import sync_playwright
 from playwright.async_api import async_playwright
-
+import os
 
 app = Flask(__name__)
 
@@ -23,4 +23,4 @@ async def home():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
