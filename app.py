@@ -8,16 +8,19 @@ app = Flask(__name__)
 def home():
     if request.method == 'POST':
         form_data = request.form.to_dict()
-        with sync_playwright() as p:
-            browser = p.chromium.launch(headless=False)
-            page = browser.new_page()
-            page.goto("https://www.genesislh.com/pages/contact")
-            page.get_by_role("textbox", name="Name").fill("b")
-            page.get_by_role("textbox", name="Email").fill("b")
-            page.get_by_role("textbox", name="Message").fill("b")
-            page.pause()  # Optional: pauses for manual inspection
-            browser.close()
-        return "Submitted!"
+        try:
+            with sync_playwright() as p:
+                browser = p.chromium.launch(headless=False)
+                page = browser.new_page()
+                page.goto("https://www.genesislh.com/pages/contact")
+                page.get_by_role("textbox", name="Name").fill("b")
+                page.get_by_role("textbox", name="Email").fill("b")
+                page.get_by_role("textbox", name="Message").fill("b")
+                page.pause()  # Optional: pauses for manual inspection
+                browser.close()
+            return "Submitted!"
+        except Exception as e:
+            return f"An error occurred: {e}"
     return render_template('index.html')
 
 if __name__ == '__main__':
