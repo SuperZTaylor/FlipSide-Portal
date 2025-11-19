@@ -4,24 +4,9 @@ services:
     env: python
     buildCommand: |
       apt-get update && apt-get install -y \
-        libgtk-4-1 \
-        libgraphene-1.0-0 \
-        libgstgl-1.0-0 \
-        libgstcodecparsers-1.0-0 \
-        libenchant-2-2 \
-        libsecret-1-0 \
-        libmanette-0.2-0 \
-        libgles2 \
-        libxcomposite1 libxrandr2 libxdamage1 libx11-xcb1 libxtst6 \
-        libnss3 libatk-bridge2.0-0 libdrm2 libxkbcommon0 libxshmfence1 \
-        libasound2 libxss1 libwayland-client0 libwayland-cursor0 libwayland-egl1 \
-        libgbm1 libpango-1.0-0 libatk1.0-0 libcairo2 libcups2 libxinerama1 \
-        libxext6 libxfixes3 libx11-6 libglib2.0-0 libexpat1 libuuid1 \
-        libfontconfig1 libjpeg62-turbo libpng16-16 libwebp7 libwoff1 \
-        libopus0 libvpx7 libsnappy1v5 libopenjp2-7 libavcodec58 libavformat58 \
-        libavutil56 libswscale5 libevent-2.1-7 libsqlite3-0 libcurl4 \
-        libgdk-pixbuf2.0-0 libharfbuzz0b libfreetype6 libthai0 libdatrie1 \
-        libfribidi0 libxcb1
+        libgtk-4-1 libgraphene-1.0-0 libgstgl-1.0-0 \
+        libgstcodecparsers-1.0-0 libenchant-2-2 libsecret-1-0 \
+        libmanette-0.2-0 libgles2
       pip install -r requirements.txt
       playwright install
     startCommand: gunicorn app:app --bind 0.0.0.0:$PORT
