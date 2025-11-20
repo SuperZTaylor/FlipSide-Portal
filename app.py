@@ -10,13 +10,16 @@ def home():
         form_data = request.form.to_dict()
         try:
             with sync_playwright() as p:
-                browser = p.chromium.launch(headless=False)
+                #browser = p.chromium.launch(headless=False)
+                browser = p.chromium.launch(
+                    headless=True,
+                    args=["--no-sandbox", "--disable-setuid-sandbox"]
+                )
                 page = browser.new_page()
                 page.goto("https://www.genesislh.com/pages/contact")
                 page.get_by_role("textbox", name="Name").fill("b")
                 page.get_by_role("textbox", name="Email").fill("b")
                 page.get_by_role("textbox", name="Message").fill("b")
-                page.pause()  # Optional: pauses for manual inspection
                 browser.close()
             return "Submitted!"
         except Exception as e:
