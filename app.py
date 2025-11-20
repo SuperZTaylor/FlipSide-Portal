@@ -16,10 +16,11 @@ def home():
                     args=["--no-sandbox", "--disable-setuid-sandbox"]
                 )
                 page = browser.new_page()
-                page.goto("https://www.genesislh.com/pages/contact")
-                page.get_by_role("textbox", name="Name").fill("b")
-                page.get_by_role("textbox", name="Email").fill("b")
-                page.get_by_role("textbox", name="Message").fill("b")
+                page.goto("https://fakeformtesting.netlify.app/")
+                page.get_by_role('textbox', name='Username:').fill('fliptest')
+                page.get_by_role('textbox', name='Email:').fill('fliptest@email.com')
+                page.get_by_role('textbox', name='Password:').fill('fliptestpass')
+                page.get_by_role('button', name='Submit:').click()
                 browser.close()
             return "Submitted!"
         except Exception as e:
