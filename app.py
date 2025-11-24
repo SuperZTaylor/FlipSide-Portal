@@ -1,5 +1,6 @@
 from flask import Flask, request, render_template
-from playwright.sync_api import sync_playwright
+from playwright.async_api import async_playwright
+import asyncio
 import os
 
 app = Flask(__name__)
@@ -9,23 +10,24 @@ def home():
     if request.method == 'POST':
         form_data = request.form.to_dict()
         try:
-            with sync_playwright() as p:
-                browser = p.chromium.launch(headless=True, args=["--no-sandbox"])
-                page = browser.new_page()
-                page.goto("https://fakeformtesting.netlify.app/")
-                page.fill("input[name='username']", "fliptest")
-                page.fill("input[name='email']", "fliptest@email.com")
-                page.fill("input[name='password']", "fliptestpass")
-                page.get_by_role("button", name="Submit:").click()
-                page.wait_for_load_state("networkidle")   # <-- ensures submission completes
-                browser.close()
-                
+            asyncio.run(submit_form())
             return "Submitted!"
         except Exception as e:
             return f"An error occurred: {e}"
     return render_template('index.html')
 
 
+async def submit_form():
+    async with async_playwright() as p:
+        browser = await p.chromium.launch(headless=True, args=["--no-sandbox"])
+        page = await browser.new_page()
+        await page.goto("https://fakeformtesting.netlify.app/")
+        await page.fill("input[name='username']", "fliptest")
+        await page.fill("input[name='email']", "fliptest@email.com")
+        await page.fill("input[name='password']", "fliptestpass")
+        await page.get_by_role("button", name="Submit:").click()
+        await page.wait_for_load_state("networkidle")
+        await browser.close()
 
 
 if __name__ == '__main__':
