@@ -19,13 +19,13 @@ def home():
 
 async def submit_form():
     async with async_playwright() as p:
-        browser = await p.chromium.launch(headless=True, args=["--no-sandbox"])
+        browser = await p.chromium.launch(headless=False, args=["--no-sandbox"])
         page = await browser.new_page()
         await page.goto("https://fakeformtesting.netlify.app/")
         await page.fill("input[name='username']", "fliptest")
         await page.fill("input[name='email']", "fliptest@email.com")
         await page.fill("input[name='password']", "fliptestpass")
-        await page.get_by_role("button", name="Submit:").click()
+        await page.get_by_role("button", name="submit").click()
         await page.wait_for_load_state("networkidle")
         await browser.close()
 
